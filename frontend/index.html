@@ -89,7 +89,15 @@
                             <label class="checkbox-label">
                                 <input type="checkbox"> 30天免登录
                             </label>
-                            <a href="https://reg.163.com/naq/findPassword" target="_blank" class="forget-link">忘记密码</a>
+                            <a href="javascript:void(0)" class="forget-link" onclick="openHelpSearch('忘记密码')">忘记密码？</a>
+                        </div>
+
+                        <!-- Error message with help search link -->
+                        <div class="error-message" id="loginErrorMessage" style="display: none;">
+                            <span class="error-text"></span>
+                            <a href="javascript:void(0)" class="error-help-link" onclick="openHelpSearchFromError()">
+                                搜索帮助
+                            </a>
                         </div>
 
                         <!-- 9. Login Button -->
@@ -105,6 +113,14 @@
                             </div>
                             <div class="qr-code-img" style="text-align: center; margin-bottom: 10px;">
                                 <img src="images/qr_icon.png" alt="二维码" style="width: 130px; height: 130px;">
+                            </div>
+                            <div class="qr-expired-tip" id="qrExpiredTip" style="display: none; text-align: center; margin-top: 10px;">
+                                <span style="color: #ff4d4f; font-size: 12px;">二维码已过期</span>
+                                <a href="javascript:void(0)" class="qr-refresh-link" onclick="refreshQrCode()">刷新</a>
+                                <a href="javascript:void(0)" class="qr-help-link" onclick="openHelpSearch('二维码过期')">搜索帮助</a>
+                            </div>
+                            <div class="qr-timer" id="qrTimer" style="text-align: center; color: #999; font-size: 12px; margin-top: 10px;">
+                                二维码有效期：<span id="qrCountdown">120</span>秒
                             </div>
                         </div>
                     </div>
@@ -143,6 +159,58 @@
             </div>
         </footer>
     </div>
+
+    <!-- Help Center Modal / Drawer -->
+    <div class="help-overlay" id="helpOverlay" onclick="closeHelpSearch(event)">
+        <div class="help-panel" id="helpPanel" onclick="event.stopPropagation()">
+            <div class="help-header">
+                <h3 class="help-title">帮助中心</h3>
+                <button class="help-close-btn" onclick="closeHelpSearch()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#999">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="help-search-bar">
+                <input type="text" class="help-search-input" id="helpSearchInput" placeholder="搜索帮助问题...">
+                <button class="help-search-btn" onclick="searchHelp()">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="help-content">
+                <div class="help-results" id="helpResults">
+                    <div class="help-empty" id="helpEmpty">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="#ddd">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <p>输入关键词搜索帮助</p>
+                    </div>
+                    <div class="help-list" id="helpList" style="display: none;"></div>
+                </div>
+                <div class="help-detail" id="helpDetail" style="display: none;">
+                    <button class="help-back-btn" onclick="showHelpList()">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#666">
+                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        </svg>
+                        返回
+                    </button>
+                    <h4 class="help-detail-title" id="helpDetailTitle"></h4>
+                    <div class="help-detail-content" id="helpDetailContent"></div>
+                </div>
+            </div>
+            <div class="help-footer">
+                <a href="javascript:void(0)" class="help-contact-btn" onclick="contactCustomerService()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="#3370ff">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                    </svg>
+                    联系客服
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>
